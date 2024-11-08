@@ -40,26 +40,46 @@ public:
     // }
     // return dp[0][1];
 
-    vector<int> prev(2, 0), curr(2, 0);
-    for (int i = n - 1; i >= 0; i--) {
-      for (int canBuy = 0; canBuy <= 1; canBuy++) {
-        if (canBuy) {
-          int buy = -prices[i] + prev[0];
-          int notBuy = 0 + prev[1];
-          curr[canBuy] = max(buy, notBuy);
-        }
-        else {
-          int sell = prices[i] + prev[1];
-          int notSell = 0 + prev[0];
-          curr[canBuy] = max(sell, notSell);
-        }
-      }
-      prev = curr;
+    // vector<int> prev(2,0), curr(2,0);
+    // for(int i = n-1; i>=0; i--){
+    //     for(int canBuy = 0; canBuy<=1; canBuy++){
+    //         int profit = 0;
+    //         if(canBuy){
+    //             // int buy = -prices[i] + prev[0];
+    //             // int notBuy = 0 + prev[1];
+    //             // curr[canBuy] = max(buy,notBuy);
+    //             profit = max(-prices[i] + prev[0], prev[1]);
+    //         }else{
+    //             // int sell = prices[i] + prev[1];
+    //             // int notSell = 0 + prev[0];
+    //             // curr[canBuy] = max(sell,notSell);
+    //             profit = max(prices[i] + prev[1],prev[0]);
+    //         }
+    //         curr[canBuy] = profit;
+    //     }
+    //     prev = curr;
+    // }
+    // return prev[1];
+
+    // int prevBuy, prevNotBuy, currBuy, currNotBuy;
+    // prevBuy = prevNotBuy = 0;
+
+    // for(int i = n-1; i>=0; i--){
+    //     currBuy = max(-prices[i] + prevNotBuy, prevBuy);
+    //     currNotBuy = max(prices[i] + prevBuy,prevNotBuy);
+    //     prevBuy = currBuy;
+    //     prevNotBuy = currNotBuy;
+    // }
+    // return currBuy;
+
+    int profit = 0;
+    for (int i = 1; i < n; i++) {
+      if (prices[i] > prices[i - 1]) profit += prices[i] - prices[i - 1];
     }
-    return prev[1];
+    return profit;
+
   }
 };
-
 int main() {
 
 
