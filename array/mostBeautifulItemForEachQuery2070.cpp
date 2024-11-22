@@ -18,28 +18,51 @@ public:
     return a[0] < b[0];
   }
   vector<int> maximumBeauty(vector<vector<int>>& items, vector<int>& queries) {
-    int n = items.size();
     sort(items.begin(), items.end(), cmp);
 
     vector<int> ans(queries.size());
-    vector<int> prices;
+    vector<pair<int, int>> prices;
 
-    for (int i = 0; i < n; i++) {
-      prices.push_back(items[i][0]);
-      if (i != 0)
-        items[i][1] = max(items[i][1], items[i - 1][1]);
+    for (int i = 0; i < queries.size(); i++) {
+      prices.push_back({ queries[i],i });
     }
-
-    for (int i = 0; i < queries.size();i++) {
-
-      int index = lower_bound(prices.begin(), prices.end(), queries[i]) - prices.begin();
-      if (index == 0 && queries[i] < prices[index]) ans[i] = 0;
-      else if (index == n || queries[i] < prices[index]) {
-        ans[i] = items[index - 1][1];
+    sort(prices.begin(), prices.end(), [](pair<int, int>& a, pair<int, int>& b) {
+      return a.first < b.first;
+      });
+    int j = 0;
+    int maxBeauty = 0;
+    for (int i = 0; i < prices.size();i++) {
+      int price = prices[i].first;
+      int index = prices[i].second;
+      while (j < items.size() && items[j][0] <= price) {
+        maxBeauty = max(maxBeauty, items[j][1]);
+        j++;
       }
-      else ans[i] = items[index][1];
+      ans[index] = maxBeauty;
     }
     return ans;
+    // int n = items.size();
+    // sort(items.begin(), items.end(), cmp);
+
+    // vector<int> ans(queries.size());
+    // vector<int> prices;
+
+    // for (int i = 0; i < n; i++) {
+    //   prices.push_back(items[i][0]);
+    //   if (i != 0)
+    //     items[i][1] = max(items[i][1], items[i - 1][1]);
+    // }
+
+    // for (int i = 0; i < queries.size();i++) {
+
+    //   int index = lower_bound(prices.begin(), prices.end(), queries[i]) - prices.begin();
+    //   if (index == 0 && queries[i] < prices[index]) ans[i] = 0;
+    //   else if (index == n || queries[i] < prices[index]) {
+    //     ans[i] = items[index - 1][1];
+    //   }
+    //   else ans[i] = items[index][1];
+    // }
+    // return ans;
 
     //tle
     // vector<int> ans;
