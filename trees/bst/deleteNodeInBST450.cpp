@@ -23,6 +23,8 @@ public:
       while (curr->left) {
         curr = curr->left;
       }
+      // curr->left = root->left;
+      // return root->right;
       root->val = curr->val;
       root->right = deleteNode(root->right, curr->val);
     }
