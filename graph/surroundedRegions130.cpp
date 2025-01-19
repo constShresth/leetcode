@@ -7,7 +7,6 @@ public:
     int m = board.size();
     int n = board[0].size();
     vector<vector<int>> vis(m, vector<int>(n, 0));
-    vector<vector<int>> convert(m, vector<int>(n, 1));
     queue<pair<int, int>> q;
     for (int i = 0; i < m; i++) {
       if (board[i][0] == 'O') {
@@ -35,7 +34,6 @@ public:
       int row = q.front().first;
       int col = q.front().second;
       q.pop();
-      convert[row][col] = 0;
       for (int i = 0; i < 4; i++) {
         int nrow = row + drow[i];
         int ncol = col + dcol[i];
@@ -48,7 +46,7 @@ public:
     }
     for (int i = 0; i < m; i++) {
       for (int j = 0; j < n; j++) {
-        if (convert[i][j]) {
+        if (!vis[i][j]) {
           board[i][j] = 'X';
         }
 
