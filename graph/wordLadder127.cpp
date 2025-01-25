@@ -26,6 +26,7 @@ public:
       }
     }
     return 0;
+    // o(n*word.length*26*log(n)), o(n)
   }
 };
 
